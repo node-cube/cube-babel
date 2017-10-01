@@ -1,0 +1,27 @@
+{
+  "name": "cube-babel",
+  "version": "1.0.0",
+  "description": "cube babel processor",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/node-cube/cube-babel.git"
+  },
+  "author": "fishbar <zhengxinlin@gmail.com>",
+  "bugs": {
+    "url": "https://github.com/node-cube/cube-babel/issues"
+  },
+  "homepage": "https://github.com/node-cube/cube-babel",
+  "dependencies": {
+    "babel-core": "^6.26.0",
+    "lodash": "^4.17.4"
+  },
+  "devDependencies": {
+    "mocha": "*",
+    "should": "*"
+  },
+  "license": "MIT"
+}
