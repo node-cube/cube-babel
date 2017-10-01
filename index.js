@@ -12,7 +12,7 @@ function genRule(rule) {
 class BabelProcessor {
   constructor(cube, config) {
     this.cube = cube;
-    this.config = config;
+    this.config = this.prepareConfig(config);
     let ignore = this.config.ignore;
     let ignoreRules = [];
     ignore && ignore.forEach((rule) => {
@@ -44,6 +44,28 @@ class BabelProcessor {
     }
     data.code = res.code;
     callback(null, data);
+  }
+  prepareConfig(config) {
+    try {
+      config.presets && config.presets.forEach((v, i, a) => {
+        if (Array.isArray(v) && typeof v[0] === 'string') {
+          v[0] = require('babel-preset-' + v[0]);
+        } else {
+          a[i] = require('babel-preset-' + v);
+        }
+      });
+      config.plugins && config.plugins.forEach((v, i, a) => {
+        if (Array.isArray(v) && typeof v[0] === 'string') {
+          v[0] = require('babel-plugin-transform-' + v[0]);
+        } else {
+          a[i] = require('babel-plugin-transform-' + v);
+        }
+      });
+    } catch (e) {
+      e.message  = 'cube-babel config error:' + e.message;
+      throw e;
+    }
+    return config;
   }
 }
 
