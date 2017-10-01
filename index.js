@@ -50,14 +50,14 @@ class BabelProcessor {
       config.presets && config.presets.forEach((v, i, a) => {
         if (Array.isArray(v) && typeof v[0] === 'string') {
           v[0] = require('babel-preset-' + v[0]);
-        } else {
+        } else if (typeof v === 'string') {
           a[i] = require('babel-preset-' + v);
         }
       });
       config.plugins && config.plugins.forEach((v, i, a) => {
         if (Array.isArray(v) && typeof v[0] === 'string') {
           v[0] = require('babel-plugin-transform-' + v[0]);
-        } else {
+        } else if (typeof v === 'string')  {
           a[i] = require('babel-plugin-transform-' + v);
         }
       });
