@@ -1,4 +1,5 @@
 'use strict';
+const path = require('path');
 const babelCore = require('babel-core');
 const _ = require('lodash');
 
@@ -11,10 +12,19 @@ function genRule(rule) {
 
 function importPlugin(nameString) {
   let plugin = null;
-  if (/^babel-plugin/.test(nameString)) {
+  if (/^\//.test(nameString)) {
+    // absolute import
+    const pluginPath = nameString.slice(1);
+    plugin = require(__dirname, '../..', pluginPath);
+  } else if (/^(\.\/|\.\.\/)/.test(nameString)) {
+    // relative import
+    plugin = require(__dirname, '../..', nameString);
+  } else if (/^(babel-plugin|@)/.test(nameString)) {
+    // full-name or with scope
     plugin = require(nameString);
   } else {
-    plugin = require('babel-plugin-transform-' + nameString)
+    // shorthand
+    plugin = require('babel-plugin-' + nameString)
   }
   // 部分插件导出 { default: [Function] } 形式
   return plugin.default ? plugin.default : plugin;
