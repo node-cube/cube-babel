@@ -10,8 +10,14 @@ function genRule(rule) {
 }
 
 function importPlugin(nameString) {
-  if (/^babel-plugin/.test(nameString)) return require(nameString);
-  return require('babel-plugin-transform-' + nameString);
+  let plugin = null;
+  if (/^babel-plugin/.test(nameString)) {
+    plugin = require(nameString);
+  } else {
+    plugin = require('babel-plugin-transform-' + nameString)
+  }
+  // 部分插件导出 { default: [Function] } 形式
+  return plugin.default ? plugin.default : plugin;
 }
 
 class BabelProcessor {
