@@ -1,4 +1,5 @@
 'use strict';
+const path = require('path');
 const babelCore = require('babel-core');
 const _ = require('lodash');
 
@@ -7,6 +8,26 @@ function genRule(rule) {
     rule = '^' + rule;
   }
   return new RegExp(rule.replace(/\./g, '\\.').replace(/\*/g, '.*'));
+}
+
+function importPlugin(nameString) {
+  let plugin = null;
+  if (/^\//.test(nameString)) {
+    // absolute import
+    const pluginPath = nameString.slice(1);
+    plugin = require(__dirname, '../..', pluginPath);
+  } else if (/^(\.\/|\.\.\/)/.test(nameString)) {
+    // relative import
+    plugin = require(__dirname, '../..', nameString);
+  } else if (/^(babel-plugin|@)/.test(nameString)) {
+    // full-name or with scope
+    plugin = require(nameString);
+  } else {
+    // shorthand
+    plugin = require('babel-plugin-' + nameString)
+  }
+  // 部分插件导出 { default: [Function] } 形式
+  return plugin.default ? plugin.default : plugin;
 }
 
 class BabelProcessor {
@@ -56,9 +77,9 @@ class BabelProcessor {
       });
       config.plugins && config.plugins.forEach((v, i, a) => {
         if (Array.isArray(v) && typeof v[0] === 'string') {
-          v[0] = require('babel-plugin-transform-' + v[0]);
+          v[0] = importPlugin(v[0]);
         } else if (typeof v === 'string')  {
-          a[i] = require('babel-plugin-transform-' + v);
+          a[i] = importPlugin(v);
         }
       });
     } catch (e) {
