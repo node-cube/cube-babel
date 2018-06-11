@@ -11,7 +11,7 @@ function genRule(rule) {
 
 function importPlugin(nameString) {
   if (/^babel-plugin/.test(nameString)) return require(nameString);
-  return require('babel-plugin-transform-', nameString);
+  return require('babel-plugin-transform-' + nameString);
 }
 
 class BabelProcessor {
