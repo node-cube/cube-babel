@@ -9,6 +9,11 @@ function genRule(rule) {
   return new RegExp(rule.replace(/\./g, '\\.').replace(/\*/g, '.*'));
 }
 
+function importPlugin(nameString) {
+  if (/^babel-plugin/.test(nameString)) return require(nameString);
+  return require('babel-plugin-transform-', nameString);
+}
+
 class BabelProcessor {
   constructor(cube, config) {
     this.cube = cube;
@@ -56,9 +61,9 @@ class BabelProcessor {
       });
       config.plugins && config.plugins.forEach((v, i, a) => {
         if (Array.isArray(v) && typeof v[0] === 'string') {
-          v[0] = require('babel-plugin-transform-' + v[0]);
+          v[0] = importPlugin(v[0]);
         } else if (typeof v === 'string')  {
-          a[i] = require('babel-plugin-transform-' + v);
+          a[i] = importPlugin(v);
         }
       });
     } catch (e) {
