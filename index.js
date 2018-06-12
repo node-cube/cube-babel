@@ -19,7 +19,7 @@ function importPlugin(nameString) {
   } else if (/^(\.\/|\.\.\/)/.test(nameString)) {
     // relative import
     plugin = require(__dirname, '../..', nameString);
-  } else if (/^(babel-plugin|@)/.test(nameString)) {
+  } else if (/^(babel-plugin-|@\w+\/babel-plugin-)/.test(nameString)) {
     // full-name or with scope
     plugin = require(nameString);
   } else {
