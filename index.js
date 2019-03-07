@@ -50,6 +50,9 @@ class BabelProcessor {
         return callback(null, data);
       }
     }
+    if (data.noAstParse) {
+      return callback(null, data);
+    }
     try {
       let config = {
         ast: true,

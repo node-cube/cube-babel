@@ -13,7 +13,20 @@ usage:
                 [
                     'cube-babel', 
                     {
-                        presets: [['es2015']],
+                        presets: [
+                            'react',
+                            [
+                                'env', 
+                                {
+                                  "targets": {
+                                    "browsers": [
+                                        "chrome >= 50", 
+                                        "safari >= 7"
+                                    ]
+                                  }
+                                }
+                            ]
+                        ],
                         plugins: [
                             ['${plugin-name}', {/** ${config} **/}]
                         ]
@@ -23,4 +36,6 @@ usage:
         }
     }
 ```
+
+更多配置，请参考babel文档 http://babeljs.io/docs/plugins/#official-presets
 
