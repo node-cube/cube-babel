@@ -53,29 +53,28 @@ class BabelProcessor {
     if (data.noAstParse) {
       return callback(null, data);
     }
-    try {
-      let config = {
-        ast: true,
-        code: true,
-        filename: data.realPath,
-        sourceRoot: this.cube.config.root,
-        comments: false,
-      };
-      res = babelCore.transform(code, _.merge(config, this.config));
-    } catch (e) {
-      e.message = 'babel processor error: ' + e.message;
-      return callback(e);
-    }
-    data.code = res.code;
-    callback(null, data);
+    let config = {
+      ast: true,
+      code: true,
+      filename: data.realPath,
+      sourceRoot: this.cube.config.root,
+      comments: false,
+    };
+    babelCore.transform(code, _.merge(config, this.config), (err, res) => {
+      if (err) {
+        return callback(err);
+      }
+      data.code = res.code;
+      callback(null, data);
+    });
   }
   prepareConfig(config) {
     try {
       config.presets && config.presets.forEach((v, i, a) => {
         if (Array.isArray(v) && typeof v[0] === 'string') {
-          v[0] = require('@babel/preset-' + v[0]);
+          v[0] = '@babel/preset-' + v[0];
         } else if (typeof v === 'string') {
-          a[i] = require('@babel/preset-' + v);
+          a[i] = '@babel/preset-' + v;
         }
       });
       config.plugins && config.plugins.forEach((v, i, a) => {
