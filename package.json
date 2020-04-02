@@ -1,6 +1,6 @@
 {
   "name": "cube-babel",
-  "version": "0.0.7",
+  "version": "1.0.0",
   "description": "cube babel processor",
   "main": "index.js",
   "scripts": {
@@ -16,8 +16,9 @@
   },
   "homepage": "https://github.com/node-cube/cube-babel",
   "dependencies": {
-    "babel-core": "^6.26.0",
-    "lodash": "^4.17.4"
+    "@babel/core": "7.6.4",
+    "@babel/preset-env": "7.6.3",
+    "lodash": "4.17.15"
   },
   "devDependencies": {
     "mocha": "*",

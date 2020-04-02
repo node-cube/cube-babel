@@ -1,6 +1,6 @@
 'use strict';
 const path = require('path');
-const babelCore = require('babel-core');
+const babelCore = require('@babel/core');
 const _ = require('lodash');
 
 function genRule(rule) {
