@@ -72,9 +72,13 @@ class BabelProcessor {
     try {
       config.presets && config.presets.forEach((v, i, a) => {
         if (Array.isArray(v) && typeof v[0] === 'string') {
-          v[0] = '@babel/preset-' + v[0];
+          if (!v[0].startsWith('@babel/')) {
+            v[0] = '@babel/preset-' + v[0];
+          }
         } else if (typeof v === 'string') {
-          a[i] = '@babel/preset-' + v;
+          if (!v.startsWith('@babel/')) {
+            a[i] = '@babel/preset-' + v;
+          }
         }
       });
       config.plugins && config.plugins.forEach((v, i, a) => {
