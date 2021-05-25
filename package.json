@@ -1,6 +1,6 @@
 {
   "name": "cube-babel",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "cube babel processor",
   "main": "index.js",
   "scripts": {
