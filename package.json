@@ -18,7 +18,7 @@
   "dependencies": {
     "@babel/core": "7.6.4",
     "@babel/preset-env": "7.6.3",
-    "lodash": "4.17.15"
+    "lodash": "4.17.19"
   },
   "devDependencies": {
     "mocha": "*",
